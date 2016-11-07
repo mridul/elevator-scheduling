@@ -18,21 +18,7 @@ class Elevator(object):
     @property
     def state(self):
         return self.id, self.floor_num, self.goal_floors
-
-    @property
-    def direction_of_travel(self):
-        # direction = 0 if no movement would happen at the next time step unit
-        # direction > 0 if the elevator would go up at the next time step unit
-        # direction < 0 otherwise
-        next_floor = self._find_next_floor()
-        if next_floor is None:
-            return Elevator.DIRECTION_STILL
-
-        if next_floor - self.floor_num > 0:
-            return Elevator.DIRECTION_UP
-        else:
-            return Elevator.DIRECTION_DOWN
-
+    
     def _find_next_floor(self):
         if len(self.goal_floors) == 0:
             return None
@@ -93,7 +79,7 @@ class ElevatorControlSystem(object):
         elevators = []
         for id, elevator in self.elevator_id_map.items():
             elevators.append(
-                (abs(pickup_from - elevator.floor_num), elevator.direction_of_travel, elevator)
+                (abs(pickup_from - elevator.floor_num), elevator.current_direction, elevator)
             )
 
         elevators_in_direction = [e for e in elevators if e[1] == direction]
