@@ -1,6 +1,10 @@
 import bisect
 import itertools
 import ipdb
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Elevator(object):
@@ -18,7 +22,7 @@ class Elevator(object):
     @property
     def state(self):
         return self.id, self.floor_num, self.goal_floors
-    
+
     def _find_next_floor(self):
         if len(self.goal_floors) == 0:
             return None
