@@ -67,21 +67,21 @@ class Elevator(object):
 
 
 class ElevatorControlSystem(object):
-    elevator_id_map = {}
+    elevators_map = {}
 
     def __init__(self, elevators):
         for elevator in elevators:
-            self.elevator_id_map[elevator.id] = elevator
+            self.elevators_map[elevator.id] = elevator
 
     def _find_elevator(self, id):
-        if id in self.elevator_id_map:
-            return self.elevator_id_map[id]
+        if id in self.elevators_map:
+            return self.elevators_map[id]
         else:
             raise Exception('Unknown Elevator')
 
     def _find_elevator_to_pickup_request(self, pickup_from, direction):
         elevators = []
-        for id, elevator in self.elevator_id_map.items():
+        for id, elevator in self.elevators_map.items():
             elevators.append(
                 (abs(pickup_from - elevator.floor_num), elevator.current_direction, elevator)
             )
@@ -94,7 +94,7 @@ class ElevatorControlSystem(object):
         return min(elevators_in_direction, key=lambda e: e[0])[2]
 
     def get_state(self):
-        return [elevator.state for id, elevator in self.elevator_id_map.items()]
+        return [elevator.state for id, elevator in self.elevators_map.items()]
 
     def update_state(self, elevator_id, floor_num, goal_floor):
         elevator = self._find_elevator(elevator_id)
@@ -113,5 +113,5 @@ class ElevatorControlSystem(object):
 
     def step(self):
         logger.info('----Moving a step ahead in time----')
-        for id, elevator in self.elevator_id_map.items():
+        for id, elevator in self.elevators_map.items():
             elevator.step()
