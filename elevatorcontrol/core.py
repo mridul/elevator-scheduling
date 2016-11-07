@@ -37,15 +37,25 @@ class Elevator(object):
         if len(self.goal_floors) == 0:
             return None
 
-        return self.goal_floors.pop(0)
+        return self.goal_floors[0]
 
     def _goto_next_floor(self):
         next_floor = self._find_next_floor()
         if next_floor is not None:
+            if next_floor > self.floor_num:
+                self.current_direction = Elevator.DIRECTION_UP
+            else:
+                self.current_direction = Elevator.DIRECTION_DOWN
+
+            print("Elevator {} is going to floor {}, from floor {}. In direction {}".format(
+                self.id, next_floor, self.floor_num, self.current_direction))
+            self.goal_floors.remove(next_floor)
             self.floor_num = next_floor
+            print("Elevator {} has reached floor {}".format(self.id, self.floor_num))
 
     def add_goal_floor(self, floor):
         bisect.insort_right(self.goal_floors, floor)
+        print("-New goal floors for Elevator {} are {}".format(self.id, self.goal_floors))
 
     def step(self):
         self._goto_next_floor()
