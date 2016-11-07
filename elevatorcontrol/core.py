@@ -59,7 +59,7 @@ class Elevator(object):
 
         self._update_travel_direction()
 
-    def add_goal_floor(self, floor):
+    def add_goal_floor(self, floor: int):
         bisect.insort_right(self.goal_floors, floor)
         logger.info("New goal floors for Elevator {} are {}".format(self.id, self.goal_floors))
         self._update_travel_direction()
@@ -71,17 +71,17 @@ class Elevator(object):
 class ElevatorControlSystem(object):
     elevators_map = {}
 
-    def __init__(self, elevators):
+    def __init__(self, elevators: list[Elevator]):
         for elevator in elevators:
             self.elevators_map[elevator.id] = elevator
 
-    def _find_elevator(self, id):
+    def _find_elevator(self, id: int):
         if id in self.elevators_map:
             return self.elevators_map[id]
         else:
             raise Exception('Unknown Elevator')
 
-    def _find_elevator_to_pickup_request(self, pickup_from, direction):
+    def _find_elevator_to_pickup_request(self, pickup_from: int, direction: int):
         elevators = []
         for id, elevator in self.elevators_map.items():
             elevators.append(
@@ -98,12 +98,12 @@ class ElevatorControlSystem(object):
     def get_state(self):
         return [elevator.state for id, elevator in self.elevators_map.items()]
 
-    def update_state(self, elevator_id, floor_num, goal_floor):
+    def update_state(self, elevator_id: int, floor_num: int, goal_floor: int):
         elevator = self._find_elevator(elevator_id)
         elevator.floor_num = floor_num
         elevator.goal_floor = goal_floor
 
-    def pickup_request(self, pickup_from, direction):
+    def pickup_request(self, pickup_from: int, direction: int):
         # find the elevator closest to this pickup floor, travelling in the requested direction
         logger.info("Incoming pickup request from floor {}, in direction {}".format(pickup_from, direction))
         target_elevator = self._find_elevator_to_pickup_request(pickup_from, direction)
