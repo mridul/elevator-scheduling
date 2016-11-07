@@ -61,6 +61,7 @@ class Elevator(object):
     def add_goal_floor(self, floor):
         bisect.insort_right(self.goal_floors, floor)
         logger.info("New goal floors for Elevator {} are {}".format(self.id, self.goal_floors))
+        self._update_travel_direction()
 
     def step(self):
         self._goto_next_floor()
