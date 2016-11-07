@@ -54,9 +54,10 @@ class Elevator(object):
             logger.info("Elevator {} is going to floor {}, from floor {}".format(
                 self.id, next_floor, self.floor_num))
             self.goal_floors.remove(next_floor)
-            self._update_travel_direction()
             self.floor_num = next_floor
             logger.info("Elevator {} has reached floor {}".format(self.id, self.floor_num))
+
+        self._update_travel_direction()
 
     def add_goal_floor(self, floor):
         bisect.insort_right(self.goal_floors, floor)
