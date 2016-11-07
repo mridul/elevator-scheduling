@@ -91,10 +91,15 @@ class ElevatorControlSystem(object):
 
     def pickup_request(self, pickup_from, direction):
         # find the elevator closest to this pickup floor, travelling in the requested direction
+        print("Incoming pickup request from floor {}, in direction {}".format(pickup_from, direction))
         target_elevator = self._find_elevator_to_pickup_request(pickup_from, direction)
-        ipdb.set_trace()
+        print("Elevator {} identified as target for pickup from {} in direction {}".format(
+            target_elevator.id, pickup_from, direction))
+        print("--Its current state is {}".format(target_elevator.state))
         target_elevator.add_goal_floor(pickup_from)
+        print("--Its new state is {}".format(target_elevator.state))
 
     def step(self):
+        print('----Moving a step ahead in time----')
         for id, elevator in self.elevator_id_map.items():
             elevator.step()
