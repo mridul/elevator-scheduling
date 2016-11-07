@@ -79,7 +79,7 @@ class ElevatorControlSystem(object):
         elevators_in_direction = sorted(elevators_in_direction, key=lambda e: e[0])
         print(elevators)
         print(elevators_in_direction)
-        return min(elevators, key=lambda e: e[0])
+        return min(elevators, key=lambda e: e[0])[2]
 
     def get_state(self):
         return [elevator.state for id, elevator in self.elevator_id_map.items()]
