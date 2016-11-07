@@ -9,19 +9,31 @@ class Elevator(object):
         self.floor_num = floor_num
         self.goal_floor = goal_floor
 
+    @property
     def state(self):
         return self.id, self.floor_num, self.goal_floor
 
 
 class ElevatorControlSystem(object):
+    elevator_id_map = {}
+
     def __init__(self, elevators):
-        self.elevators = elevators
+        for elevator in elevators:
+            self.elevator_id_map[elevator.id] = elevator
+
+    def _find_elevator(self, id):
+        if id in self.elevator_id_map:
+            return self.elevator_id_map[id]
+        else:
+            raise Exception('Unknown Elevator')
 
     def get_state(self):
-        return [elevator.state for elevator in self.elevators]
+        return [elevator.state for id, elevator in self.elevator_id_map.items()]
 
     def update_state(self, elevator_id, floor_num, goal_floor):
-        pass
+        elevator = self._find_elevator(elevator_id)
+        elevator.floor_num = floor_num
+        elevator.goal_floor = goal_floor
 
     def pickup_request(self, pickup_from, direction):
         pass
