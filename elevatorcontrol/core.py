@@ -36,7 +36,7 @@ class Elevator(object):
         if len(self.goal_floors) == 0:
             return None
 
-        return self.goal_floors[-1]
+        return self.goal_floors.pop(0)
 
     def _goto_next_floor(self):
         next_floor = self._find_next_floor()
