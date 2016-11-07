@@ -17,7 +17,7 @@ class Elevator(object):
         self.id = next(Elevator.new_elevator_id)
         self.floor_num = floor_num
         self.goal_floors = goal_floors
-        self.current_direction = Elevator.DIRECTION_STILL
+        self.intended_direction = Elevator.DIRECTION_STILL
 
     @property
     def state(self):
@@ -29,10 +29,10 @@ class Elevator(object):
 
         # if we're going down, find the closest floor less than current floor,
         # otherwise, find the closest floor above current floor.
-        if self.current_direction == Elevator.DIRECTION_DOWN:
+        if self.intended_direction == Elevator.DIRECTION_DOWN:
             index_closest_less_than_current = bisect.bisect_right(self.goal_floors, self.floor_num) - 1
             return self.goal_floors[index_closest_less_than_current]
-        elif self.current_direction == Elevator.DIRECTION_UP:
+        elif self.intended_direction == Elevator.DIRECTION_UP:
             index_closest_greater_than_current = bisect.bisect_left(self.goal_floors, self.floor_num)
             return self.goal_floors[index_closest_greater_than_current]
         else:
@@ -42,11 +42,11 @@ class Elevator(object):
         next_floor = self._find_next_floor()
         if next_floor is not None:
             if next_floor > self.floor_num:
-                self.current_direction = Elevator.DIRECTION_UP
+                self.intended_direction = Elevator.DIRECTION_UP
             else:
-                self.current_direction = Elevator.DIRECTION_DOWN
+                self.intended_direction = Elevator.DIRECTION_DOWN
         else:
-            self.current_direction = Elevator.DIRECTION_STILL
+            self.intended_direction = Elevator.DIRECTION_STILL
 
     def _goto_next_floor(self):
         next_floor = self._find_next_floor()
