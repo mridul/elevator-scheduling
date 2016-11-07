@@ -37,19 +37,34 @@ class Elevator(object):
         if len(self.goal_floors) == 0:
             return None
 
-        return self.goal_floors[0]
+        # if we're going down, find the closest floor less than current floor,
+        # otherwise, find the closest floor above current floor.
+        if self.current_direction == Elevator.DIRECTION_DOWN:
+            index_closest_less_than_current = bisect.bisect_right(self.goal_floors, self.floor_num) - 1
+            return self.goal_floors[index_closest_less_than_current]
+        elif self.current_direction == Elevator.DIRECTION_UP:
+            index_closest_greater_than_current = bisect.bisect_left(self.goal_floors, self.floor_num)
+            return self.goal_floors[index_closest_greater_than_current]
+        else:
+            return min(self.goal_floors, key=lambda g: abs(g - self.floor_num))
 
-    def _goto_next_floor(self):
+    def _update_travel_direction(self):
         next_floor = self._find_next_floor()
         if next_floor is not None:
             if next_floor > self.floor_num:
                 self.current_direction = Elevator.DIRECTION_UP
             else:
                 self.current_direction = Elevator.DIRECTION_DOWN
+        else:
+            self.current_direction = Elevator.DIRECTION_STILL
 
-            print("Elevator {} is going to floor {}, from floor {}. In direction {}".format(
-                self.id, next_floor, self.floor_num, self.current_direction))
+    def _goto_next_floor(self):
+        next_floor = self._find_next_floor()
+        if next_floor is not None:
+            print("Elevator {} is going to floor {}, from floor {}".format(
+                self.id, next_floor, self.floor_num))
             self.goal_floors.remove(next_floor)
+            self._update_travel_direction()
             self.floor_num = next_floor
             print("Elevator {} has reached floor {}".format(self.id, self.floor_num))
 
