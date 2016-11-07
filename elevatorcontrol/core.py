@@ -13,6 +13,12 @@ class Elevator(object):
     def state(self):
         return self.id, self.floor_num, self.goal_floor
 
+    def _goto_next_floor(self):
+        pass
+
+    def step(self):
+        self._goto_next_floor()
+
 
 class ElevatorControlSystem(object):
     elevator_id_map = {}
@@ -37,3 +43,7 @@ class ElevatorControlSystem(object):
 
     def pickup_request(self, pickup_from, direction):
         pass
+
+    def step(self):
+        for id, elevator in self.elevator_id_map:
+            elevator.step()
