@@ -37,6 +37,13 @@ The goal is to design and implement an Elevator Control System.
   * It finds the next floor to visit as the closest floor towards the direction it is already travelling.
   * If it was originally stationary, the elevator will visit the closest floor.
   * It deletes a floor from its goal floors list after visiting it.
-
-
-
+- The scheduling and visiting algorithms are based off whatever limited experiences I've had with elevators in my life.
+  They improve upon a first come first serve scheduler because:
+  * The order in which and Elevator visits its goal floors tries to minimize time to serve all its goal floors in one direction first, followed by the other direction.
+    This minimizes the time spent in an elevator to a large extent, but also maintains a sense of continuity in elevator travel - both of which should reduce most people's frustration.
+  * The search for a target elevator to serve a pickup request leverages any elevators already travelling in the direction requested.
+  * In tandem, both of these above work better than a first come first serve solution.
+- A couple of possible future improvements:
+  * When an elevator has been idle for a specific time, it could travel to a 'home' floor. One of the ways to choose a home floor could to go to a floor where lot of pickup requests have been seen historically.
+  * Another factor we could consider is the capacity of an elevator. It doesn't make a lot of sense to send an already full elevator to pick more people up.
+  
