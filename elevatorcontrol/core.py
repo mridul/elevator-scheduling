@@ -96,5 +96,5 @@ class ElevatorControlSystem(object):
         target_elevator.add_goal_floor(pickup_from)
 
     def step(self):
-        for id, elevator in self.elevator_id_map:
+        for id, elevator in self.elevator_id_map.items():
             elevator.step()
