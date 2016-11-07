@@ -22,3 +22,6 @@ if __name__ == '__main__':
     print_state(ecs.get_state())
     ecs.step()
     print_state(ecs.get_state())
+
+    ecs.step()
+    print_state(ecs.get_state())
