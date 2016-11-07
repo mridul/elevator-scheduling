@@ -18,8 +18,33 @@ class Elevator(object):
     def state(self):
         return self.id, self.floor_num, self.goal_floors
 
+    @property
+    def direction_of_travel(self):
+        # direction = 0 if no movement would happen at the next time step unit
+        # direction > 0 if the elevator would go up at the next time step unit
+        # direction < 0 otherwise
+        next_floor = self._find_next_floor()
+        if next_floor is None:
+            return Elevator.DIRECTION_STILL
+
+        if next_floor - self.floor_num > 0:
+            return Elevator.DIRECTION_UP
+        else:
+            return Elevator.DIRECTION_DOWN
+
+    def _find_next_floor(self):
+        if len(self.goal_floors) == 0:
+            return None
+
+        return self.goal_floors[-1]
+
     def _goto_next_floor(self):
-        pass
+        next_floor = self._find_next_floor()
+        if next_floor is not None:
+            self.floor_num = next_floor
+
+    def add_goal_floor(self, floor):
+        bisect.insort_right(self.goal_floors, floor)
 
     def step(self):
         self._goto_next_floor()
