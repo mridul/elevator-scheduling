@@ -13,6 +13,7 @@ class Elevator(object):
         self.id = next(Elevator.new_elevator_id)
         self.floor_num = floor_num
         self.goal_floors = goal_floors
+        self.current_direction = Elevator.DIRECTION_STILL
 
     @property
     def state(self):
@@ -65,21 +66,17 @@ class ElevatorControlSystem(object):
 
     def _find_elevator_to_pickup_request(self, pickup_from, direction):
         elevators = []
-        ipdb.set_trace()
         for id, elevator in self.elevator_id_map.items():
             elevators.append(
                 (abs(pickup_from - elevator.floor_num), elevator.direction_of_travel, elevator)
             )
 
-        ipdb.set_trace()
         elevators_in_direction = [e for e in elevators if e[1] == direction]
         if len(elevators_in_direction) == 0:
             return min(elevators, key=lambda e: e[0])[2]
 
         elevators_in_direction = sorted(elevators_in_direction, key=lambda e: e[0])
-        print(elevators)
-        print(elevators_in_direction)
-        return min(elevators, key=lambda e: e[0])[2]
+        return min(elevators_in_direction, key=lambda e: e[0])[2]
 
     def get_state(self):
         return [elevator.state for id, elevator in self.elevator_id_map.items()]
