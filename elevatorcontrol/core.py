@@ -51,16 +51,16 @@ class Elevator(object):
     def _goto_next_floor(self):
         next_floor = self._find_next_floor()
         if next_floor is not None:
-            print("Elevator {} is going to floor {}, from floor {}".format(
+            logger.info("Elevator {} is going to floor {}, from floor {}".format(
                 self.id, next_floor, self.floor_num))
             self.goal_floors.remove(next_floor)
             self._update_travel_direction()
             self.floor_num = next_floor
-            print("Elevator {} has reached floor {}".format(self.id, self.floor_num))
+            logger.info("Elevator {} has reached floor {}".format(self.id, self.floor_num))
 
     def add_goal_floor(self, floor):
         bisect.insort_right(self.goal_floors, floor)
-        print("-New goal floors for Elevator {} are {}".format(self.id, self.goal_floors))
+        logger.info("New goal floors for Elevator {} are {}".format(self.id, self.goal_floors))
 
     def step(self):
         self._goto_next_floor()
@@ -103,15 +103,15 @@ class ElevatorControlSystem(object):
 
     def pickup_request(self, pickup_from, direction):
         # find the elevator closest to this pickup floor, travelling in the requested direction
-        print("Incoming pickup request from floor {}, in direction {}".format(pickup_from, direction))
+        logger.info("Incoming pickup request from floor {}, in direction {}".format(pickup_from, direction))
         target_elevator = self._find_elevator_to_pickup_request(pickup_from, direction)
-        print("Elevator {} identified as target for pickup from {} in direction {}".format(
+        logger.info("Elevator {} identified as target for pickup from {} in direction {}".format(
             target_elevator.id, pickup_from, direction))
-        print("--Its current state is {}".format(target_elevator.state))
+        logger.info("--Its current state is {}".format(target_elevator.state))
         target_elevator.add_goal_floor(pickup_from)
-        print("--Its new state is {}".format(target_elevator.state))
+        logger.info("--Its new state is {}".format(target_elevator.state))
 
     def step(self):
-        print('----Moving a step ahead in time----')
+        logger.info('----Moving a step ahead in time----')
         for id, elevator in self.elevator_id_map.items():
             elevator.step()
