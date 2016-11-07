@@ -84,7 +84,7 @@ class ElevatorControlSystem(object):
         elevators = []
         for id, elevator in self.elevators_map.items():
             elevators.append(
-                (abs(pickup_from - elevator.floor_num), elevator.current_direction, elevator)
+                (abs(pickup_from - elevator.floor_num), elevator.intended_direction, elevator)
             )
 
         elevators_in_direction = [e for e in elevators if e[1] == direction]
