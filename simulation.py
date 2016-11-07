@@ -14,7 +14,6 @@ if __name__ == '__main__':
     print_state(ecs.get_state())
     ecs.step()
 
-    import ipdb; ipdb.set_trace()
     elevators[0].add_goal_floor(1)
     print_state(ecs.get_state())
 
