@@ -1,7 +1,12 @@
+import bisect
 import itertools
+import ipdb
 
 
 class Elevator(object):
+    DIRECTION_STILL = 0
+    DIRECTION_UP = +1
+    DIRECTION_DOWN = -1
     new_elevator_id = itertools.count()
 
     def __init__(self, floor_num: int, goal_floors: list):
