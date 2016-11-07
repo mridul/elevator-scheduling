@@ -71,7 +71,7 @@ class Elevator(object):
 class ElevatorControlSystem(object):
     elevators_map = {}
 
-    def __init__(self, elevators: list[Elevator]):
+    def __init__(self, elevators: list):
         for elevator in elevators:
             self.elevators_map[elevator.id] = elevator
 
