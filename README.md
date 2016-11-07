@@ -10,6 +10,8 @@ The goal is to design and implement an Elevator Control System.
   However, the project does not have any external libraries as dependencies right now, and one can skip this step.
   * `mkvirtualenv elevator --python=/path/to/python3`
   * `workon elevator`
+- Clone the repository using `git clone https://github.com/mridul/elevator-scheduling.git`
+- Change directory to the project directory. `cd elevator-scheduling`
 - Run `make init` before first run.
 - Run `make simulate` to run a simulation specified in `simulation.py`
 - Run `make clean-pyc` to cleanup any `pyc` or `pyo` files.
