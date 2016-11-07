@@ -4,14 +4,14 @@ import itertools
 class Elevator(object):
     new_elevator_id = itertools.count()
 
-    def __init__(self, floor_num, goal_floor):
+    def __init__(self, floor_num: int, goal_floors: list):
         self.id = next(Elevator.new_elevator_id)
         self.floor_num = floor_num
-        self.goal_floor = goal_floor
+        self.goal_floors = goal_floors
 
     @property
     def state(self):
-        return self.id, self.floor_num, self.goal_floor
+        return self.id, self.floor_num, self.goal_floors
 
     def _goto_next_floor(self):
         pass
